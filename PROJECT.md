@@ -324,6 +324,7 @@ Depends on Phases 8–10.
 - [x] Reject unknown completed-manifest fields and report value-type substitutions.
 - [x] Provide a read-only evaluation verification command with JSON output and explicit exit statuses.
 - [x] Verify saved evaluation artifact hashes, report consistency, and database session/result linkage read-only.
+- [x] Define the [strategy activation and rollback contract](docs/strategy_activation.md), including exact snapshot restoration, atomic version checks, and restart behavior.
 - [ ] Restore the previous configuration when a change fails evaluation.
 - [ ] Demonstrate a live, traceable analysis update and repeatable comparison
   reporting improvement, regression, or no change.

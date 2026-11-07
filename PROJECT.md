@@ -270,6 +270,8 @@ Depends on Phase 8.
 
 ### Phase 10 — Verify proposed code before applying it
 
+- [x] Define the [proposal verification acceptance contract](docs/proposal_verification.md), including isolation, evidence binding, and stale-proposal rejection.
+
 Depends on Phases 8–9.
 
 - [ ] Apply proposals to isolated checkouts of their recorded base revisions.

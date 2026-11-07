@@ -292,6 +292,7 @@ An agent's success flag alone does not establish that its source changes work.
 
 Depends on Phases 8–10 and Phase 14's execution-stop/recovery support.
 
+- [x] Define the [durable scheduling acceptance contract](docs/scheduling.md), including exclusive admission, persisted controls, and restart blockers.
 - [ ] Add a durable scheduler around the coordinator.
 - [ ] Process queued issues sequentially and prevent competing schedulers from
   overlapping model execution.

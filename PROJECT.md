@@ -365,6 +365,7 @@ Build required pieces alongside Phases 9–13, before unattended deployment.
 - [x] Document current API deployment configuration and startup blockers in
   `docs/deployment.md`.
 - [x] Resolve the documented API startup blocker and verify deployment from a fresh image.
+- [x] Define the [backup and restore acceptance contract](docs/backup_restore.md), including consistent capture, revision retention, and isolated restore checks.
 - [ ] Implement backup/restore for SQLite and Git revisions referenced by audit records.
 - [ ] Restore into a separate environment and verify issues, sessions, strategy
   versions, and referenced commits.

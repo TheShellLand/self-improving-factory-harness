@@ -363,6 +363,8 @@ Uses Phases 11–12 and Phase 14's authentication support.
 
 Build required pieces alongside Phases 9–13, before unattended deployment.
 
+- [x] Define the [operator authorization acceptance contract](docs/operator_authorization.md), covering permissions, browser requests, and audit requirements.
+- [x] Define the [execution-stop verification acceptance contract](docs/execution_stop.md), covering durable identities, launch fencing, and termination evidence.
 - [ ] Implement production operator authentication and authorization.
 - [ ] Implement a host verifier confirming both parent execution and child
   containers have stopped.

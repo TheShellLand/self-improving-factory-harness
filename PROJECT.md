@@ -254,6 +254,8 @@ observations even when the final result is invalid.
 
 Depends on Phase 8.
 
+- [x] Define the [Docker RPC lifecycle acceptance contract](docs/docker_rpc.md), including bounded transport, termination proof, and durable recovery blocking.
+
 - [x] Build an agent image containing pi and its runtime dependencies.
 - [x] Verify real container get_state RPC without inference using a bounded offline smoke helper.
 - [ ] Connect bidirectional RPC through the Docker client.

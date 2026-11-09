@@ -208,6 +208,7 @@ automatically started daemon; local tests do not establish live autonomy.
 - [x] Process one issue with a live agent and retain its events and final result.
 - [ ] Ensure agent loops continuously until `/goal` state requirements are met before declaring a multi-step goal
   completed.
+- [x] Add an opt-in bounded text-goal runner with host-selected verifiers and retained iteration observations; tested with injected runners. Durable `/goal` state, live verification, and source-goal support remain pending.
 - [x] Define host-owned goal completion, bounded iteration, and verification acceptance criteria
   in [the goal completion contract](docs/goal_completion.md).
 - [ ] Measure and record live event latency.

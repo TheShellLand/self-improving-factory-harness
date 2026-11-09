@@ -4,6 +4,22 @@ Status: design contract for Phase 8; implementation and live verification remain
 pending. The current PiRunner performs one structured invocation. No `/goal`
 command or durable goal state is implemented by this document.
 
+`core.goal.TextGoalRunner` provides an opt-in text-only building block around a
+runner such as `PiRunner`. The host supplies requirement descriptions and pure,
+synchronous summary verifiers. It repeats unsuccessful verification with prior
+feedback, rechecks every requirement on the final summary, and records iteration
+results and decisions through vault observations. `GoalConfig` bounds iterations,
+elapsed time, repeated unchanged results, and each serialized result size.
+Source proposals are rejected. Cancellation and storage errors propagate.
+Use a PiRunner configured with the same vault to retain protocol events.
+
+This helper does not implement durable goal admission, verifier identity/version
+storage, a `/goal` interface, or restart recovery. Transport output bounds and
+cleanup remain the wrapped runner's responsibility. Malformed results and agent
+failures propagate without retries. Verifiers must not block the event loop.
+`tests/test_goal.py` covers this limited injected-runner scope; live goal
+completion remains unverified.
+
 ## Ownership and completion
 
 The host must own a goal identifier, immutable acceptance requirements, and a

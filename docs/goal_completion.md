@@ -17,6 +17,10 @@ This helper does not implement durable goal admission, verifier identity/version
 storage, a `/goal` interface, or restart recovery. Transport output bounds and
 cleanup remain the wrapped runner's responsibility. Malformed results and agent
 failures propagate without retries. Verifiers must not block the event loop.
+Only expiration of the runner's own deadline becomes an incomplete deadline
+outcome. Transport and storage timeouts propagate to the coordinator, preserving
+their failure identity. Deadline cancellation waits for the wrapped runner's
+cleanup; this does not independently prove child-process termination.
 `tests/test_goal.py` covers this limited injected-runner scope; live goal
 completion remains unverified.
 

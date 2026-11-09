@@ -2,6 +2,7 @@
 import asyncio
 import copy
 import json
+import math
 from dataclasses import dataclass
 
 from core.coordinator import ExecutionOutcome
@@ -20,7 +21,6 @@ class GoalConfig:
             value = getattr(self, name)
             if type(value) is not int or value < 1:
                 raise ValueError(f"{name} must be a positive integer")
-        import math
         if type(self.timeout) not in (int, float) or not math.isfinite(self.timeout) or self.timeout <= 0:
             raise ValueError("timeout must be finite and positive")
 
@@ -57,8 +57,9 @@ class TextGoalRunner:
         previous = None
         unchanged = 0
         feedback = None
+        deadline = asyncio.timeout(self.config.timeout)
         try:
-            async with asyncio.timeout(self.config.timeout):
+            async with deadline:
                 for iteration in range(1, self.config.max_iterations + 1):
                     context = copy.deepcopy(config)
                     context["host_goal"] = {"requirements": dict(self._requirements),
@@ -90,4 +91,6 @@ class TextGoalRunner:
                     feedback = {"summary": result.summary, "verification": checks}
                 return stop("Goal iteration limit exceeded")
         except TimeoutError:
+            if not deadline.expired():
+                raise
             return stop("Goal deadline exceeded")

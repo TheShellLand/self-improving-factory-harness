@@ -2,7 +2,8 @@
 
 Status: design contract for Phase 8; implementation and live verification remain
 pending. The current PiRunner performs one structured invocation. No `/goal`
-command or durable goal state is implemented by this document.
+command is implemented. The opt-in text runner and durable store described below
+implement a limited subset; source-goal verification and operator controls remain pending.
 
 `core.goal.TextGoalRunner` provides an opt-in text-only building block around a
 runner such as `PiRunner`. The host supplies requirement descriptions and pure,
@@ -33,8 +34,12 @@ Only expiration of the runner's own deadline becomes an incomplete deadline
 outcome. Transport and storage timeouts propagate to the coordinator, preserving
 their failure identity. Deadline cancellation waits for the wrapped runner's
 cleanup; this does not independently prove child-process termination.
-`tests/test_goal.py` covers this limited injected-runner scope; live goal
-completion remains unverified.
+`tests/test_goal.py` covers the injected-runner scope. Run
+`PYTHONPATH=. python -m scripts.check_live_pi --goal /path/to/new/evidence-directory`
+with the configured interpreter for a live two-iteration check. The helper asks
+for an intentionally incorrect draft followed by its correction; it rejects a
+single correct answer as insufficient evidence of iteration. The 2026-11-09
+check passed with retained evidence documented in PROJECT.md.
 
 ## Ownership and completion
 

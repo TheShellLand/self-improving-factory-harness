@@ -211,6 +211,7 @@ automatically started daemon; local tests do not establish live autonomy.
 - [x] Add an opt-in bounded text-goal runner with host-selected verifiers and retained iteration observations; tested with injected runners. Durable `/goal` state, live verification, and source-goal support remain pending.
 - [x] Distinguish goal deadline expiry from transport/storage timeouts, and verify cleanup, final-summary revalidation, verifier rejection, and no-progress stopping with injected runners.
 - [x] Add opt-in durable text-goal admission and versioned progress tied to active claims, rejecting duplicate starts and stale updates with atomic audit writes.
+- [x] Demonstrate live text-goal correction across two iterations with durable host verification and retained pi events using `scripts.check_live_pi --goal`.
 - [x] Define host-owned goal completion, bounded iteration, and verification acceptance criteria
   in [the goal completion contract](docs/goal_completion.md).
 - [ ] Measure and record live event latency.
@@ -236,6 +237,13 @@ coordinator used a no-op reflection provider and no code-promotion service.
 
 Configuration evidence: `tests/test_pi_config.py` covers defaults, environment
 settings, explicit overrides, invalid values, and exact credential inheritance.
+
+Live text-goal check on 2026-11-09: session
+`ca7b6ce8-5b75-4759-a380-8e45bb47c9bb` rejected the deliberately incorrect first
+draft and verified the corrected summary `42`. It retained 901 pi events and
+versioned host decisions in `/tmp/sifh-live-goal-20261109/{vault.db,evidence.json}`
+and completed in 80.122 seconds. This demonstrates the text-only loop, not source
+verification, a `/goal` operator interface, or event transport latency.
 
 Client evidence: `tests/test_pi_client.py` and a successful real pi 1.4.0
 `get_state` check through `scripts/check_pi.py`. See `docs/pi_client.md` for the

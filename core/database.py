@@ -57,6 +57,12 @@ class DatabaseClient:
                                "proposal_id TEXT PRIMARY KEY REFERENCES commit_proposals(proposal_id), "
                                "snapshot TEXT NOT NULL)")
             connection.execute("PRAGMA user_version = 2")
+            connection.execute("CREATE TABLE IF NOT EXISTS goal_runs ("
+                               "session_id TEXT PRIMARY KEY REFERENCES agent_sessions(session_id), "
+                               "goal_id TEXT UNIQUE NOT NULL, issue_id TEXT NOT NULL REFERENCES issues(issue_id), "
+                               "requirements TEXT NOT NULL, version INTEGER NOT NULL, "
+                               "status TEXT NOT NULL CHECK(status IN ('RUNNING', 'VERIFIED', 'INCOMPLETE')), "
+                               "progress TEXT NOT NULL)")
 
 
 def connect(database_path=None):

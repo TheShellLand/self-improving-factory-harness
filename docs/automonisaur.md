@@ -37,6 +37,7 @@ while reusing the existing config/environment convention.
 | Event receipt intervals | `Dates` has no monotonic interval helper | Use standard-library `monotonic` in `PiEventRecorder` |
 | Pi event budget | `subprocessWrapper.Run` captures output with `communicate()` and has no event callback budget | Enforce a per-operation event count in `PiClient` before callbacks |
 | Text goal iterations | Installed integrations and `subprocessWrapper.Run` provide no host requirement verification loop | Reuse `ExecutionOutcome` and vault signals in `TextGoalRunner`, with bounded asyncio execution |
+| Durable goal state | Installed integrations have no SQLite goal store; `Json.dumps_dict` stringifies nested values | Reuse `DatabaseClient` transactions and `Vault._record` for atomic versioned progress and audit writes |
 | Proposal content evidence | `cryptography.hashing.Hashlib` provides MD5 | Retain SHA-256 content hashes |
 
 Before creating code, inspect the installed upstream revision for a matching

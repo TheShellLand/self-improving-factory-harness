@@ -13,8 +13,20 @@ elapsed time, repeated unchanged results, and each serialized result size.
 Source proposals are rejected. Cancellation and storage errors propagate.
 Use a PiRunner configured with the same vault to retain protocol events.
 
-This helper does not implement durable goal admission, verifier identity/version
-storage, a `/goal` interface, or restart recovery. Transport output bounds and
+Pass `goal_store=GoalStore(vault)` to enable durable admission. Database
+initialization creates the additive `goal_runs` table. Each session can start
+only one goal, tied to its active issue claim. Progress updates use version checks
+and commit atomically with observations carrying the goal ID and version.
+`GoalStore.inspect(session_id)` reads persisted requirements, status, and latest
+progress; earlier progress remains in the audit signals. Cancellation leaves the
+goal and session RUNNING. Reopening the database does not authorize continuation:
+duplicate starts are rejected, including after a goal finishes. Existing session
+recovery and explicit retry create a new session; historical goals stay intact.
+`tests/test_goal_store.py` verifies restart, stale updates, cancellation, and
+rollback on audit failure using temporary SQLite.
+
+This helper does not implement verifier identity/version storage, a `/goal`
+interface, or automatic restart recovery. Transport output bounds and
 cleanup remain the wrapped runner's responsibility. Malformed results and agent
 failures propagate without retries. Verifiers must not block the event loop.
 Only expiration of the runner's own deadline becomes an incomplete deadline

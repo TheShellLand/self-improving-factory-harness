@@ -33,7 +33,7 @@ class TextGoalRunner:
     Cancellation and storage errors propagate to the coordinator.
     """
 
-    def __init__(self, runner, vault, requirements, verifiers, config=None):
+    def __init__(self, runner, vault, requirements, verifiers, config=None, *, goal_store=None):
         if not requirements or any(type(k) is not str or not k or
                                    type(v) is not str or not v for k, v in requirements.items()):
             raise ValueError("Nonempty named requirements are required")
@@ -41,9 +41,19 @@ class TextGoalRunner:
         self._requirements = dict(requirements)
         self._verifiers = dict(verifiers)
         self.config = config or GoalConfig()
+        self.goal_store = goal_store
 
     async def __call__(self, issue, session_id, config):
+        goal_id = None
+        version = None
+        if self.goal_store is not None:
+            goal_id, version = self.goal_store.begin(session_id, issue["issue_id"], self._requirements)
+
         def record(payload):
+            nonlocal version
+            if self.goal_store is not None:
+                version = self.goal_store.append(session_id, goal_id, version, payload)
+                return
             self.vault.record(SignalPulse(source_agent="goal", action_type="OBSERVATION",
                 payload={**payload, "session_id": session_id, "issue_id": issue["issue_id"]}))
 
@@ -51,7 +61,8 @@ class TextGoalRunner:
             record({"goal_stop": reason})
             return ExecutionOutcome(success=False, summary=reason)
 
-        record({"goal_version": 1, "requirements": self._requirements})
+        if self.goal_store is None:
+            record({"goal_version": 1, "requirements": self._requirements})
         if any(not callable(self._verifiers.get(k)) for k in self._requirements):
             return stop("Unsupported goal requirement")
         previous = None

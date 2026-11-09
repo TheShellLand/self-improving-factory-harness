@@ -210,6 +210,7 @@ automatically started daemon; local tests do not establish live autonomy.
   completed.
 - [x] Add an opt-in bounded text-goal runner with host-selected verifiers and retained iteration observations; tested with injected runners. Durable `/goal` state, live verification, and source-goal support remain pending.
 - [x] Distinguish goal deadline expiry from transport/storage timeouts, and verify cleanup, final-summary revalidation, verifier rejection, and no-progress stopping with injected runners.
+- [x] Add opt-in durable text-goal admission and versioned progress tied to active claims, rejecting duplicate starts and stale updates with atomic audit writes.
 - [x] Define host-owned goal completion, bounded iteration, and verification acceptance criteria
   in [the goal completion contract](docs/goal_completion.md).
 - [ ] Measure and record live event latency.

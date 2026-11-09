@@ -399,3 +399,6 @@ it. Continue with scheduling, evaluated reflection, and the web interface.
 Preserve the gatekeeper boundary throughout. Detailed contracts and setup live in
 `docs/signaling_schema.md`, `docs/signaling_flow_map.md`, and `docs/runtime_guide.md`.
 See `docs/recovery.md` for the recovery service contract and API workflow.
+
+The [documentation map](docs/README.md) separates existing component guides from
+acceptance contracts whose implementation or live evidence remains pending.

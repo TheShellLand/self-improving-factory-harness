@@ -82,12 +82,14 @@ PYTHONPATH=. python -m scripts.test_vault_write
 
 Tests use disposable state and mock Docker execution. The coordinator integration
 test uses a deterministic runner, real temporary Git, and real temporary SQLite.
-It does not prove the live autonomous loop is operational. Production runner and
-reflection adapters, continuous scheduling, and production recovery are unfinished.
+It does not prove the live autonomous loop is operational. Docker runner integration, real reflection analysis, continuous scheduling, and
+production recovery are unfinished. The host PiRunner adapter exists; see
+[pi client verification](pi_client.md) for its separate live arithmetic check.
 
-## Planned signal contract
+## Signal integration
 
-Future pi adapters must use `pi --mode rpc`. The internal `SignalPulse` envelope
+The host PiClient uses `pi --mode rpc`. PiRunner can persist protocol events as
+session-linked observations when supplied the coordinator vault. The internal `SignalPulse` envelope
 validates identity, timestamps, action types, and viewport metadata. The executor
 requires host-selected argv; it does not map the pi wire protocol itself. Runner
 and pipeline outcomes are recorded as distinct RESULT signals.
